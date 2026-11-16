@@ -133,9 +133,19 @@ subprocess.run(["swift", swift_script], check=True)
 subprocess.run(["iconutil", "-c", "icns", iconset_dir, "-o", f"{os.getcwd()}/7-Zip.app/Contents/Resources/AppIcon.icns"], check=True)
 EOF
 
+# Read 7-Zip version from Vendor/7zip/C/7zVersion.h
+VERSION_FILE="$DIR/../Vendor/7zip/C/7zVersion.h"
+APP_VERSION="26.06"
+if [ -f "$VERSION_FILE" ]; then
+    PARSED_VER=$(awk '/^#define MY_VERSION_NUMBERS /{gsub(/"/, "", $3); print $3}' "$VERSION_FILE")
+    if [ -n "$PARSED_VER" ]; then
+        APP_VERSION="$PARSED_VER"
+    fi
+fi
+
 # Create Info.plist
-echo "==> Creating Info.plist..."
-cat << 'EOF' > "$CONTENTS/Info.plist"
+echo "==> Creating Info.plist (version $APP_VERSION)..."
+cat << EOF > "$CONTENTS/Info.plist"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -157,9 +167,9 @@ cat << 'EOF' > "$CONTENTS/Info.plist"
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
+    <string>${APP_VERSION}</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>${APP_VERSION}</string>
     <key>LSMinimumSystemVersion</key>
     <string>13.0</string>
     <key>NSHighResolutionCapable</key>
