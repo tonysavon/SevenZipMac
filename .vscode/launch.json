@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug 7-Zip (Debug Binary)",
+            "program": "/tmp/SevenZipMacBuild/debug/SevenZipGUI",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build (Debug)"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch 7-Zip.app (Release Bundle)",
+            "program": "${workspaceFolder}/7-Zip.app/Contents/MacOS/SevenZipGUI",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build & Package 7-Zip.app (Release)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SevenZipMac}",
+            "name": "Debug SevenZipGUI",
+            "target": "SevenZipGUI",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug SevenZipGUI"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:SevenZipMac}",
+            "name": "Release SevenZipGUI",
+            "target": "SevenZipGUI",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release SevenZipGUI"
+        }
+    ]
+}
